@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require("bcryptjs");
+const { PrismaClient } = require('./generated/prisma');
 const passport = require("passport");
 const path = require("path");
+const LocalStrategy = require('passport-local');
 
 
 const indexRouter = require('./routers/indexRouter');
@@ -10,7 +12,7 @@ const indexRouter = require('./routers/indexRouter');
 require('dotenv').config();
 
 const PORT = process.env.port || 8080;
-
+const prisma = new PrismaClient();
 const app = express();
 
 //Set-up url request body parsing
@@ -18,6 +20,13 @@ app.use(express.urlencoded({ extended: false }));
 //Set-up Public files
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
+
+//Setup passport-local strategy
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    const user = await prisma
+  })
+)
 
 app.use('/', indexRouter);
 
