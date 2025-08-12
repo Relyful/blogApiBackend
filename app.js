@@ -24,7 +24,19 @@ app.use(express.static(assetsPath));
 //Setup passport-local strategy
 passport.use(
   new LocalStrategy(async (username, password, done) => {
-    const user = await prisma
+    const user = await prisma.user.findUnique({
+      where: {
+        username
+      }
+    })
+    if (!user) {
+      return done(null, false)
+    };
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return done(null, false);
+    }
+    return done(null, user);
   })
 )
 
