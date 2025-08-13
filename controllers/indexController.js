@@ -32,3 +32,9 @@ exports.postRegister = async (req, res) => {
     status: 'success'
   })
 }
+
+exports.authTest = async (req, res) => {
+  res.json({
+    user: req.user
+  })
+}
