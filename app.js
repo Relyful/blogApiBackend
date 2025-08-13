@@ -51,7 +51,7 @@ app.get("/*splat", async (req, res) => {
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).render('errPage',{
+  res.status(500).send('errPage',{
     errMessage: err.message
   });
 });
