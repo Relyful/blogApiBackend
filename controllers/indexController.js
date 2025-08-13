@@ -1,5 +1,6 @@
 const { PrismaClient } = require('../generated/prisma');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const prisma = new PrismaClient();
 
@@ -8,10 +9,10 @@ exports.getIndex = (req, res) => {
 }
 
 exports.postLogin = async (req, res) => {
-  const xdToken = Math.random()*1000000000;
+  const userData = req.user;
+  const token = jwt.sign({id: userData.id, username: userData.username}, process.env.SECRET, { expiresIn: "1m"});
   res.json({
-    token: xdToken,
-    user: req.user
+    token
   })
 }
 

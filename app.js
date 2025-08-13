@@ -11,7 +11,7 @@ const indexRouter = require('./routers/indexRouter');
 //dotenv setup
 require('dotenv').config();
 
-const PORT = process.env.port || 8080;
+const PORT = process.env.PORT || 8080;
 const prisma = new PrismaClient();
 const app = express();
 
