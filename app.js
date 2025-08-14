@@ -9,6 +9,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 
 const indexRouter = require('./routers/indexRouter');
+const postsRouter = require('./routers/postsRouter');
 
 //dotenv setup
 require('dotenv').config();
@@ -61,6 +62,7 @@ passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
 }));
 
 app.use('/', indexRouter);
+app.use('/posts', postsRouter);
 
 //Catch all route
 app.get("/*splat", async (req, res) => {
