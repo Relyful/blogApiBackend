@@ -24,6 +24,20 @@ exports.postPosts = async (req, res) => {
   })
 }
 
+exports.getPost = async (req, res) => {
+  const posts = await prisma.post.findUnique({
+    where: {
+      id: Number(req.params.postId)
+    },
+    include: {
+      comments: true,
+    }
+  })
+  res.json({
+    posts
+  })
+}
+
 // const posts = await prisma.post.findMany({
 //     where: {
 //       authorId: req.user.id
