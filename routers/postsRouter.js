@@ -7,6 +7,7 @@ const postsRouter = Router();
 postsRouter.get('/', postsController.getPosts);
 postsRouter.post('/', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.postPosts);
 postsRouter.get('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.getPost);
-postsRouter.delete('/delete/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.deletePost);
+postsRouter.delete('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.deletePost);
+postsRouter.put('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.updatePost);
 
 module.exports = postsRouter;

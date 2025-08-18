@@ -65,8 +65,31 @@ exports.deletePost = async (req, res) => {
   })
 }
 
-// const posts = await prisma.post.findMany({
-//     where: {
-//       authorId: req.user.id
-//     }
-//   })
+exports.updatePost = async (req, res) => {
+  const data = req.body;
+  const user = req.user;
+  const postId = Number(req.params.postId);
+  const checkPost = await prisma.findFirst({
+    where: {
+      id: postId,
+      authorId: user.id
+    }
+  })
+  if (!checkPost) {
+    return res.status(404).json({
+      error: 'Not found'
+    })
+  }
+  const update = await prisma.post.update({
+    where: {
+      id: postId
+    },
+    data: {
+      title: data.title,
+      message: data.message
+    }
+  });
+  res.json({
+    update
+  });
+}
