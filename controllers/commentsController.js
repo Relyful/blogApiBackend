@@ -39,6 +39,23 @@ exports.updateOwnComment = async (req, res) => {
   return res.sendStatus(200);
 }
 
-// exports.removeOwnComment = async (req, res) => {
+exports.removeOwnComment = async (req, res) => {
+  const commentId = req.params.commentId;
+  const user = req.user;
 
-// }
+  const ownershipCheck = await prisma.comment.findFirst({
+    where: {
+      id: commentId,
+      authorId: user.id
+    }
+  })
+  if(!ownershipCheck) {
+    return res.sendStatus(404);
+  }
+
+  prisma.comment.delete({
+    where: {
+      id: commentId
+    }
+  })
+}
