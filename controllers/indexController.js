@@ -28,9 +28,7 @@ exports.postRegister = async (req, res) => {
     }
   })
   console.log(user);
-  res.json({
-    status: 'success'
-  })
+  res.sendStaus(201);
 }
 
 exports.authTest = async (req, res) => {

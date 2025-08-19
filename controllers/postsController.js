@@ -11,7 +11,7 @@ exports.getPosts = async (req, res) => {
 
 exports.postPosts = async (req, res) => {
   const data = req.body;
-  const post = await prisma.post.create({
+  await prisma.post.create({
     data: {
       title: data.title,
       message: data.message,
@@ -19,9 +19,7 @@ exports.postPosts = async (req, res) => {
       authorId: req.user.id
     }
   })
-  res.json({
-    post
-  })
+  res.sendStatus(201);
 }
 
 exports.getPost = async (req, res) => {
@@ -55,14 +53,12 @@ exports.deletePost = async (req, res) => {
     })
   }
 
-  const deletedPost = await prisma.post.delete({
+  await prisma.post.delete({
     where: {
       id: postId
     }
   })
-  return res.json({
-    deletedPost
-  })
+  return res.sendStatus(200);
 }
 
 exports.updatePost = async (req, res) => {
@@ -80,7 +76,7 @@ exports.updatePost = async (req, res) => {
       error: 'Not found'
     })
   }
-  const update = await prisma.post.update({
+  await prisma.post.update({
     where: {
       id: postId
     },
@@ -89,7 +85,5 @@ exports.updatePost = async (req, res) => {
       message: data.message
     }
   });
-  res.json({
-    update
-  });
+  res.sendStatus(200);
 }
