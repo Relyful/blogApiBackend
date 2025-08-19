@@ -53,9 +53,24 @@ exports.removeOwnComment = async (req, res) => {
     return res.sendStatus(404);
   }
 
-  prisma.comment.delete({
+  await prisma.comment.delete({
     where: {
       id: commentId
     }
   })
+}
+
+exports.removeCommentAdmin = async (req, res) => {
+  const commentId = req.params.commentId;
+  const user = req.user;
+
+  if (user.role !== "ADMIN") {
+    return res.sendStatus(403);
+  }
+  await prisma.comment.delete({
+    where: {
+      id: commentId
+    }
+  })
+  return res.sendStatus(200);
 }
