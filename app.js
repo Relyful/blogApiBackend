@@ -6,6 +6,7 @@ const path = require("path");
 const LocalStrategy = require('passport-local');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const cors = require('cors');
 
 
 const indexRouter = require('./routers/indexRouter');
@@ -23,6 +24,8 @@ app.use(express.urlencoded({ extended: false }));
 //Set-up Public files
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
+//Set-up cors access
+app.use(cors())
 
 //Setup passport-local strategy
 passport.use(
