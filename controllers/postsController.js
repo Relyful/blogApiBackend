@@ -4,9 +4,8 @@ const prisma = new PrismaClient();
 
 exports.getPosts = async (req, res) => {
   const posts = await prisma.post.findMany();
-  res.json({
-    ...posts
-  })
+  console.log(posts);
+  res.json(posts)
 }
 
 exports.postPosts = async (req, res) => {
