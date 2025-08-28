@@ -25,7 +25,9 @@ app.use(express.urlencoded({ extended: false }));
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 //Set-up cors access
-app.use(cors())
+app.use(cors());
+//Allow json 
+app.use(express.json());
 
 //Setup passport-local strategy
 passport.use(
