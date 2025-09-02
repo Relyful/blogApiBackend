@@ -6,7 +6,7 @@ const indexRouter = Router();
 
 indexRouter.get('/', indexController.getIndex);
 indexRouter.post('/register', indexController.postRegister);
-indexRouter.post('/login', passport.authenticate('local', {session: false, failureRedirect: '/'}), 
+indexRouter.post('/login', passport.authenticate('local'), 
   indexController.postLogin);
 indexRouter.get('/auth', passport.authenticate('jwt', {session: false, failureRedirect: '/'}),
   indexController.authTest);
