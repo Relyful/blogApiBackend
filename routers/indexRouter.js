@@ -8,7 +8,7 @@ indexRouter.get('/', indexController.getIndex);
 indexRouter.post('/register', indexController.postRegister);
 indexRouter.post('/login', passport.authenticate('local'), 
   indexController.postLogin);
-indexRouter.get('/auth', passport.authenticate('jwt', {session: false, failureRedirect: '/'}),
+indexRouter.get('/auth', passport.authenticate('jwt', {session: false}),
   indexController.authTest);
 
 
