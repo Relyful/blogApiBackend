@@ -11,7 +11,7 @@ exports.getIndex = (req, res) => {
 exports.postLogin = async (req, res) => {
   const userData = req.user;
   const token = jwt.sign({id: userData.id, username: userData.username}, process.env.SECRET, { expiresIn: "1h"});
-  res.json(token);
+  res.json({token, userData});
 }
 
 exports.postRegister = async (req, res) => {
