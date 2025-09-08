@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 exports.getPosts = async (req, res) => {
   const posts = await prisma.post.findMany();
-  console.log(posts);
   res.json(posts)
 }
 
@@ -29,10 +28,9 @@ exports.getPost = async (req, res) => {
     include: {
       comments: true,
     }
-  })
-  res.json({
-    posts
-  })
+  });
+  console.log(posts);
+  res.json(posts)
 }
 
 exports.deletePost = async (req, res) => {
