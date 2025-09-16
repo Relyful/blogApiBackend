@@ -9,7 +9,7 @@ postsRouter.use('/:postId/comments', commentsRouter);
 
 postsRouter.get('/', postsController.getPosts);
 postsRouter.post('/', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.postPosts);
-postsRouter.get('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.getPost);
+postsRouter.get('/:postId', passport.authenticate('jwt', {session: false}), postsController.getPost);
 postsRouter.delete('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.deletePost);
 postsRouter.put('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.updatePost);
 

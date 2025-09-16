@@ -26,7 +26,15 @@ exports.getPost = async (req, res) => {
       id: Number(req.params.postId)
     },
     include: {
-      comments: true,
+      comments: {
+        include: {
+          author: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      },
     }
   });
   console.log(posts);
