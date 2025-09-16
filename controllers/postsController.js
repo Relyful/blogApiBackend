@@ -3,7 +3,15 @@ const { PrismaClient } = require('../generated/prisma');
 const prisma = new PrismaClient();
 
 exports.getPosts = async (req, res) => {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    include: {
+      _count: {
+        select: {
+          comments: true,
+        }
+      }
+    }
+  });
   res.json(posts)
 }
 
