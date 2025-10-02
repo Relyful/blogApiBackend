@@ -5,6 +5,11 @@ const prisma = new PrismaClient();
 exports.getPosts = async (req, res) => {
   const posts = await prisma.post.findMany({
     include: {
+      author: {
+        select: {
+          username: true,
+        }
+      },
       _count: {
         select: {
           comments: true,
