@@ -31,7 +31,7 @@ exports.updateOwnComment = async (req, res) => {
   const ownershipCheck = await prisma.comment.findFirst({
     where: {
       id: commentId,
-      authorId: user.id
+      authorId: Number(user.id)
     }
   })
   if(!ownershipCheck) {
@@ -55,7 +55,7 @@ exports.removeOwnComment = async (req, res) => {
   const ownershipCheck = await prisma.comment.findFirst({
     where: {
       id: commentId,
-      authorId: user.id
+      authorId: Number(user.id)
     }
   })
   if(!ownershipCheck) {

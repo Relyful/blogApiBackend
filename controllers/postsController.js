@@ -83,10 +83,10 @@ exports.updatePost = async (req, res) => {
   const data = req.body;
   const user = req.user;
   const postId = Number(req.params.postId);
-  const checkPost = await prisma.findFirst({
+  const checkPost = await prisma.post.findFirst({
     where: {
       id: postId,
-      authorId: user.id
+      authorId: Number(user.id)
     }
   })
   if (!checkPost) {
