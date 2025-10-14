@@ -12,5 +12,6 @@ postsRouter.post('/', passport.authenticate('jwt', {session: false, failureRedir
 postsRouter.get('/:postId', postsController.getPost);
 postsRouter.delete('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.deletePost);
 postsRouter.put('/:postId', passport.authenticate('jwt', {session: false, failureRedirect: '/'}), postsController.updatePost);
+postsRouter.put('/:postId/publish', postsController.publishPost);
 
 module.exports = postsRouter;

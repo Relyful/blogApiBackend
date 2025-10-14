@@ -105,3 +105,30 @@ exports.updatePost = async (req, res) => {
   });
   res.sendStatus(200);
 }
+
+exports.publishPost = async (req, res) => {
+  const data = req.body;
+  const postId = Number(req.params.postId);
+  console.log(data);
+
+  const checkPost = await prisma.post.findFirst({
+    where: {
+      id: postId
+    }
+  });
+  if (!checkPost) {
+    return res.status(404).json({
+      error: 'Post Not found'
+    })
+  }
+  const result = await prisma.post.update({
+    where: {
+      id: postId
+    },
+    data: {
+      published: data.published
+    }
+  })
+  console.log(result);
+  return res.sendStatus(200);
+}
