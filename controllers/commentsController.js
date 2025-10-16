@@ -70,7 +70,7 @@ exports.removeOwnComment = async (req, res) => {
 }
 
 exports.removeCommentAdmin = async (req, res) => {
-  const commentId = req.params.commentId;
+  const commentId = parseInt(req.params.commentId);
   const user = req.user;
 
   if (user.role !== "ADMIN") {

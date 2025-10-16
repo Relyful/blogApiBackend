@@ -7,6 +7,6 @@ const commentsRouter = Router({ mergeParams: true});
 commentsRouter.post('/', passport.authenticate('jwt', {session: false}), commentsController.createComment);
 commentsRouter.put('/:commentId', commentsController.updateOwnComment);
 commentsRouter.delete('/:commentId', commentsController.removeOwnComment);
-commentsRouter.delete('/admin/:commentId', commentsController.removeCommentAdmin);
+commentsRouter.delete('/admin/:commentId', passport.authenticate('jwt', {session: false}), commentsController.removeCommentAdmin);
 
 module.exports = commentsRouter;
