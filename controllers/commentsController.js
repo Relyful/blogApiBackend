@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 exports.createComment = async (req, res) => {
   const data = req.body;
   console.log(data);
-  await prisma.comment.create({
+  const newComment = await prisma.comment.create({
     data: {
       message: data.message,
       author: {
@@ -18,9 +18,12 @@ exports.createComment = async (req, res) => {
           id: Number(req.params.postId),
         }
       }
+    },
+    include: {
+      author: true,
     }
   })
-  return res.sendStatus(201);
+  return res.status(201).json(newComment);
 }
 
 exports.updateOwnComment = async (req, res) => {
