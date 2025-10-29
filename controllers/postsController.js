@@ -3,7 +3,28 @@ const { PrismaClient } = require('../generated/prisma');
 const prisma = new PrismaClient();
 
 exports.getPosts = async (req, res) => {
+  const posts = await prisma.post.findMany({    
+    include: {
+      author: {
+        select: {
+          username: true,
+        }
+      },
+      _count: {
+        select: {
+          comments: true,
+        }
+      }
+    }
+  });
+  res.json(posts)
+}
+
+exports.getPublishedPosts = async (req, res) => {
   const posts = await prisma.post.findMany({
+    where: {
+      published: true,
+    },
     include: {
       author: {
         select: {
