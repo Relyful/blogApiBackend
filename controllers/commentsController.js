@@ -75,6 +75,7 @@ exports.removeOwnComment = async (req, res) => {
 exports.removeCommentAdmin = async (req, res) => {
   const commentId = parseInt(req.params.commentId);
   const user = req.user;
+  console.log(user.role)
 
   if (user.role !== "ADMIN") {
     return res.sendStatus(403);
