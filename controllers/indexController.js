@@ -21,7 +21,7 @@ exports.postLogin = async (req, res) => {
 exports.postRegister = async (req, res) => {
   const data = req.body;
   console.log(req.body);
-  if (data.username.length > 4 || data.username.length > 10) {
+  if (data.username.length < 4 || data.username.length > 10) {
     return res.json({"error": "Username too short or too long"})
   }
   try {
