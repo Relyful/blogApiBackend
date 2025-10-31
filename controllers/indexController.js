@@ -34,7 +34,7 @@ exports.postRegister = async (req, res) => {
       },
     });
     console.log(user);
-    res.sendStatus(201);
+    res.status(201).json(user);
   } catch (error) {
     if (error.code === 'P2002') {
       return res.json({"error": 'Username already exists'});
