@@ -81,6 +81,8 @@ exports.removeCommentAdmin = async (req, res) => {
       id: user.id,
     }
   })
+
+  console.log(userDb.role);
   if (userDb.role !== "ADMIN") {
     return res.sendStatus(403);
   }
