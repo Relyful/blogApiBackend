@@ -4,6 +4,9 @@ const prisma = new PrismaClient();
 
 exports.getPosts = async (req, res) => {
   const posts = await prisma.post.findMany({    
+    orderBy: {
+      createdAt: 'desc',
+    },
     include: {
       author: {
         select: {
@@ -24,6 +27,9 @@ exports.getPublishedPosts = async (req, res) => {
   const posts = await prisma.post.findMany({
     where: {
       published: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
     include: {
       author: {
@@ -61,6 +67,9 @@ exports.getPost = async (req, res) => {
     },
     include: {
       comments: {
+        orderBy: {
+          createdAt: 'desc',
+        },
         include: {
           author: {
             select: {
