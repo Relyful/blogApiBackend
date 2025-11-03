@@ -52,7 +52,7 @@ exports.updateOwnComment = async (req, res) => {
 }
 
 exports.removeOwnComment = async (req, res) => {
-  const commentId = req.params.commentId;
+  const commentId = parseInt(req.params.commentId);
   const user = req.user;
 
   const ownershipCheck = await prisma.comment.findFirst({
