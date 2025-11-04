@@ -1,10 +1,25 @@
 const { PrismaClient } = require('../generated/prisma');
+const { body, validationResult } = require("express-validator");
+
 
 const prisma = new PrismaClient();
 
-exports.createComment = async (req, res) => {
+const validateComment = [
+  body('message').trim()
+    .isLength({min: 1}),
+  ]
+  
+
+exports.createComment = [
+  validateComment, 
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(req.body)
+      console.log(errors);
+      return res.sendStatus(400);
+    }
   const data = req.body;
-  console.log(data);
   const newComment = await prisma.comment.create({
     data: {
       message: data.message,
@@ -24,7 +39,7 @@ exports.createComment = async (req, res) => {
     }
   })
   return res.status(201).json(newComment);
-}
+}]
 
 exports.updateOwnComment = async (req, res) => {
   const data = req.body;
