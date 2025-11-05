@@ -1,27 +1,30 @@
-const { PrismaClient } = require('../generated/prisma');
+const { PrismaClient } = require("../generated/prisma");
+const { body } = require("express-validator");
 
 const prisma = new PrismaClient();
 
+const validatePost = [body("title").trim(), body("message").trim()];
+
 exports.getPosts = async (req, res) => {
-  const posts = await prisma.post.findMany({    
+  const posts = await prisma.post.findMany({
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
     include: {
       author: {
         select: {
           username: true,
-        }
+        },
       },
       _count: {
         select: {
           comments: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
-  res.json(posts)
-}
+  res.json(posts);
+};
 
 exports.getPublishedPosts = async (req, res) => {
   const posts = await prisma.post.findMany({
@@ -35,40 +38,43 @@ exports.getPublishedPosts = async (req, res) => {
       author: {
         select: {
           username: true,
-        }
+        },
       },
       _count: {
         select: {
           comments: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
-  res.json(posts)
-}
+  res.json(posts);
+};
 
-exports.postPosts = async (req, res) => {
-  const data = req.body;
-  await prisma.post.create({
-    data: {
-      title: data.title,
-      message: data.message,
-      published: data.published,
-      authorId: req.user.id
-    }
-  })
-  res.sendStatus(201);
-}
+exports.postPosts = [
+  validatePost,
+  async (req, res) => {
+    const data = req.body;
+    await prisma.post.create({
+      data: {
+        title: data.title,
+        message: data.message,
+        published: data.published,
+        authorId: req.user.id,
+      },
+    });
+    res.sendStatus(201);
+  },
+];
 
 exports.getPost = async (req, res) => {
   const posts = await prisma.post.findUnique({
     where: {
-      id: Number(req.params.postId)
+      id: Number(req.params.postId),
     },
     include: {
       comments: {
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
         include: {
           author: {
@@ -78,11 +84,11 @@ exports.getPost = async (req, res) => {
           },
         },
       },
-    }
+    },
   });
   console.log(posts);
-  res.json(posts)
-}
+  res.json(posts);
+};
 
 exports.deletePost = async (req, res) => {
   const postId = Number(req.params.postId);
@@ -91,23 +97,23 @@ exports.deletePost = async (req, res) => {
   const post = await prisma.post.findFirst({
     where: {
       id: postId,
-      authorId: userId
-    }
-  })
+      authorId: userId,
+    },
+  });
 
   if (!post) {
     return res.status(404).json({
-      error: 'Not found'
-    })
+      error: "Not found",
+    });
   }
 
   await prisma.post.delete({
     where: {
-      id: postId
-    }
-  })
+      id: postId,
+    },
+  });
   return res.sendStatus(200);
-}
+};
 
 exports.updatePost = async (req, res) => {
   const data = req.body;
@@ -116,25 +122,25 @@ exports.updatePost = async (req, res) => {
   const checkPost = await prisma.post.findFirst({
     where: {
       id: postId,
-      authorId: Number(user.id)
-    }
-  })
+      authorId: Number(user.id),
+    },
+  });
   if (!checkPost) {
     return res.status(404).json({
-      error: 'Not found'
-    })
+      error: "Not found",
+    });
   }
   await prisma.post.update({
     where: {
-      id: postId
+      id: postId,
     },
     data: {
       title: data.title,
-      message: data.message
-    }
+      message: data.message,
+    },
   });
   res.sendStatus(200);
-}
+};
 
 exports.publishPost = async (req, res) => {
   const data = req.body;
@@ -143,22 +149,22 @@ exports.publishPost = async (req, res) => {
 
   const checkPost = await prisma.post.findFirst({
     where: {
-      id: postId
-    }
+      id: postId,
+    },
   });
   if (!checkPost) {
     return res.status(404).json({
-      error: 'Post Not found'
-    })
+      error: "Post Not found",
+    });
   }
   const result = await prisma.post.update({
     where: {
-      id: postId
+      id: postId,
     },
     data: {
-      published: data.published
-    }
-  })
+      published: data.published,
+    },
+  });
   console.log(result);
   return res.sendStatus(200);
-}
+};
