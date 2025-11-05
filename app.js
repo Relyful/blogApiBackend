@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 //Set-up cors access
-app.use(cors());
+app.use(cors({origin: ["https://relys-blog.vercel.app", "https://relys-blog-admin.vercel.app", "http://localhost:5173", "http://localhost:5174"]}));
 //Allow json 
 app.use(express.json());
 
